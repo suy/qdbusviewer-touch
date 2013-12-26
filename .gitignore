@@ -1,0 +1,10 @@
+*.o
+Makefile
+
+# For Qt Creator.
+*.pro.user
+# For Vim plugins.
+.clang_complete
+.localrc.vim
+# For SailfishOS.
+rpm/dbusviewertouch.spec
