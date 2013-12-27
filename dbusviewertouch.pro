@@ -2,8 +2,8 @@ QT = core dbus gui quick xml
 TARGET = dbusviewertouch
 CONFIG += c++11
 
-SOURCES = src/main.cpp \
-    src/dbusservicesmodel.cpp
+SOURCES = src/dbusservicesmodel.cpp
+HEADERS = src/dbusservicesmodel.h
 
 RESOURCES = dbusviewertouch.qrc
 
@@ -11,6 +11,7 @@ RESOURCES = dbusviewertouch.qrc
 # Sailfish OS dependent.
 #
 packagesExist(sailfishapp) {
+    message(Building for Sailfish OS)
 	CONFIG += sailfishapp
 
 	# From the template provided by the Sailfish SDK:
@@ -29,24 +30,23 @@ packagesExist(sailfishapp) {
 	# Where main() is provided.
 	SOURCES += src/dbusviewertouch.cpp
 
+    # QML files.
 	OTHER_FILES += qml/dbusviewertouch.qml \
+        qml/pages/ServicesPage.qml \
 		qml/cover/CoverPage.qml \
 		qml/pages/SecondPage.qml \
+
+    # Deployment/packaging.
+    OTHER_FILES += \
 		rpm/dbusviewertouch.spec \
 		rpm/dbusviewertouch.yaml \
-		dbusviewertouch.desktop \
-		qml/pages/ServicesPage.qml
+		dbusviewertouch.desktop
 }
+## FIXME: a better fallback for "desktop" cases?
+else {
+    SOURCES += src/main.cpp
 
-
-SOURCES += qttools/src/qdbus/qdbusviewer/qdbusmodel.cpp \
-    src/qmldbusmodel.cpp
-
-HEADERS += qttools/src/qdbus/qdbusviewer/qdbusmodel.h \
-    src/qmldbusmodel.h \
-    src/dbusservicesmodel.h
-
-OTHER_FILES += \
-    qml/applicationwindow.qml
-
+    OTHER_FILES += \
+        qml/applicationwindow.qml
+}
 

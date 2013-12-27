@@ -3,6 +3,7 @@
 
 #include <QAbstractListModel>
 #include <QDBusConnection>
+#include <QStringList>
 
 class DBusServicesModel : public QAbstractListModel
 {
