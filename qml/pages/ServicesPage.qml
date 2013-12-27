@@ -58,14 +58,18 @@ Page {
             width: page.width
             spacing: Theme.paddingLarge
             PageHeader {
-                title: "UI Template"
+                title: "D-Bus services"
             }
-            Label {
-                x: Theme.paddingLarge
-                text: "Hello Sailors"
-                color: Theme.secondaryHighlightColor
-                font.pixelSize: Theme.fontSizeExtraLarge
+            SilicaListView {
+                model: servicesModel
+                delegate: Label {text: service}
             }
+            // Label {
+            //     x: Theme.paddingLarge
+            //     text: "Hello Sailors"
+            //     color: Theme.secondaryHighlightColor
+            //     font.pixelSize: Theme.fontSizeExtraLarge
+            // }
         }
     }
 }
