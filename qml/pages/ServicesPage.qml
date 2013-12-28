@@ -15,10 +15,6 @@ Page {
                 text: "Refresh"
                 onClicked: servicesModel.refresh()
             }
-            MenuItem {
-                text: "Show Page 2"
-                onClicked: pageStack.push(Qt.resolvedUrl("SecondPage.qml"))
-            }
         }
 
         model: servicesModel
