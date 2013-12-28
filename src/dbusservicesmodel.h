@@ -1,11 +1,11 @@
 #ifndef DBUSSERVICESMODEL_H
 #define DBUSSERVICESMODEL_H
 
-#include <QAbstractListModel>
+#include <QStringListModel>
 #include <QDBusConnection>
 #include <QStringList>
 
-class DBusServicesModel : public QAbstractListModel
+class DBusServicesModel : public QStringListModel
 {
     Q_OBJECT
 public:
@@ -17,12 +17,12 @@ public:
 
     // For the model.
 	QHash<int, QByteArray> roleNames() const Q_DECL_FINAL;
-    QVariant data(const QModelIndex& i, int role) const Q_DECL_FINAL;
-    int rowCount(const QModelIndex& i = QModelIndex()) const Q_DECL_FINAL;
+    // QVariant data(const QModelIndex& i, int role) const Q_DECL_FINAL;
+    // int rowCount(const QModelIndex& i = QModelIndex()) const Q_DECL_FINAL;
     // For the model as well, but optional.
-    bool insertRows(int row, int count, const QModelIndex& parent = QModelIndex()) Q_DECL_FINAL;
-    bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex()) Q_DECL_FINAL;
-    bool setData(const QModelIndex& i, const QVariant& data, int role = Qt::EditRole) Q_DECL_FINAL;
+    // bool insertRows(int row, int count, const QModelIndex& parent = QModelIndex()) Q_DECL_FINAL;
+    // bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex()) Q_DECL_FINAL;
+    // bool setData(const QModelIndex& i, const QVariant& data, int role = Qt::EditRole) Q_DECL_FINAL;
 
 public slots:
     void refresh();
@@ -38,7 +38,7 @@ private:
     QModelIndex findItem(const QString &name);
 
 	QDBusConnection m_connection;
-    QStringList m_services;
+    // QStringList m_services;
 
 };
 
