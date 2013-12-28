@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 #ifdef Q_OS_SAILFISH
     return application->exec();
 #else
-    engine.load(QUrl("qrc:/qml/dbusviewertouch.qml"));
+    engine.load(QUrl("qrc:/qml/applicationwindow.qml"));
 
     // There is only one root object in our QML file.
     QObject* interface = engine.rootObjects().first();
