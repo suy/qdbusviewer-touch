@@ -20,9 +20,9 @@ public:
     QVariant data(const QModelIndex& i, int role) const Q_DECL_FINAL;
     int rowCount(const QModelIndex& i = QModelIndex()) const Q_DECL_FINAL;
     // For the model as well, but optional.
-    bool insertRows(int row, int count, QModelIndex parent = QModelIndex()) Q_DECL_FINAL;
-    bool removeRows(int row, int count, QModelIndex parent = QModelIndex()) Q_DECL_FINAL;
-    bool setData(QModelIndex i, QVariant data) Q_DECL_FINAL;
+    bool insertRows(int row, int count, const QModelIndex& parent = QModelIndex()) Q_DECL_FINAL;
+    bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex()) Q_DECL_FINAL;
+    bool setData(const QModelIndex& i, const QVariant& data, int role = Qt::EditRole) Q_DECL_FINAL;
 
 public slots:
     void refresh();

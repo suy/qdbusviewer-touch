@@ -50,7 +50,7 @@ int DBusServicesModel::rowCount(const QModelIndex&) const
 //
 // For the model as well, but optional.
 //
-bool DBusServicesModel::insertRows(int row, int count, QModelIndex)
+bool DBusServicesModel::insertRows(int row, int count, const QModelIndex&)
 {
     qDebug() << "row" << row << "count" << count << "size" << m_services.size();
     qDebug() << "before" << m_services;
@@ -61,7 +61,7 @@ bool DBusServicesModel::insertRows(int row, int count, QModelIndex)
     return true;
 }
 
-bool DBusServicesModel::removeRows(int row, int count, QModelIndex)
+bool DBusServicesModel::removeRows(int row, int count, const QModelIndex&)
 {
     qDebug() << "row" << row << "count" << count << "size" << m_services.size();
     qDebug() << "before" << m_services;
@@ -74,11 +74,14 @@ bool DBusServicesModel::removeRows(int row, int count, QModelIndex)
     return true;
 }
 
-bool DBusServicesModel::setData(QModelIndex i, QVariant data)
+bool DBusServicesModel::setData(const QModelIndex& i, const QVariant& data, int role)
 {
-    QString s = m_services.at(i.row());
-    s = data.toString();
-    return true;
+    if (role == ServiceRole) {
+        QString s = m_services.at(i.row());
+        s = data.toString();
+        return true;
+    }
+    return false;
 }
 
 
@@ -90,7 +93,7 @@ void DBusServicesModel::serviceRegistered(const QString& service)
         return;
 
     this->insertRows(0, 1);
-    this->setData(this->index(0, 0), service);
+    this->setData(this->index(0, 0), service, ServiceRole);
 }
 
 QModelIndex DBusServicesModel::findItem(const QString &name)
