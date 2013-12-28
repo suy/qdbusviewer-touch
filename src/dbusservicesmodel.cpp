@@ -47,7 +47,39 @@ int DBusServicesModel::rowCount(const QModelIndex&) const
     return m_services.count();
 }
 
+//
+// For the model as well, but optional.
+//
+bool DBusServicesModel::insertRows(int row, int count, QModelIndex)
+{
+    qDebug() << "row" << row << "count" << count << "size" << m_services.size();
+    qDebug() << "before" << m_services;
+    beginInsertRows(QModelIndex(), row, row+count);
+    m_services.append(QString());
+    endInsertRows();
+    qDebug() << "after" << m_services;
+    return true;
+}
 
+bool DBusServicesModel::removeRows(int row, int count, QModelIndex)
+{
+    qDebug() << "row" << row << "count" << count << "size" << m_services.size();
+    qDebug() << "before" << m_services;
+    beginRemoveRows(QModelIndex(), row, row+count);
+    for (int i=0; i < count; i++) {
+        m_services.removeAt(row+i);
+    }
+    endRemoveRows();
+    qDebug() << "after" << m_services;
+    return true;
+}
+
+bool DBusServicesModel::setData(QModelIndex i, QVariant data)
+{
+    QString s = m_services.at(i.row());
+    s = data.toString();
+    return true;
+}
 
 
 void DBusServicesModel::serviceRegistered(const QString& service)
@@ -101,17 +133,23 @@ void DBusServicesModel::serviceOwnerChanged(const QString &name, const QString &
 
 void DBusServicesModel::refresh()
 {
-    this->removeRows(0, this->rowCount(QModelIndex()));
+    qDebug() << "before" << m_services;
+    beginRemoveRows(QModelIndex(), 0, rowCount());
+    this->removeRows(0, this->rowCount());
+    endRemoveRows();
 
     if (m_connection.isConnected()) {
         const QStringList names = m_connection.interface()->registeredServiceNames();
+        beginInsertRows(QModelIndex(), rowCount(), rowCount());
         m_services = names;
+        endInsertRows();
         // this->setStringList(serviceNames);
         // for (const auto& name : names) {
         //     qDebug() << name;
         //
         // }
     }
+    qDebug() << "after" << m_services;
 }
 
 // void DBusServicesModel::refreshChildren()

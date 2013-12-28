@@ -18,6 +18,8 @@ int main(int argc, char* argv[])
     QScopedPointer<QQuickView> view(SailfishApp::createView());
     DBusServicesModel servicesModel(QDBusConnection::systemBus());
     view->rootContext()->setContextProperty("servicesModel", &servicesModel);
+    view->setSource(SailfishApp::pathTo("qml/dbusviewertouch.qml"));
+    view->show();
 #else
     QGuiApplication application(argc, argv);
     QQmlApplicationEngine engine;
