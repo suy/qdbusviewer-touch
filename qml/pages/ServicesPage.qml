@@ -25,7 +25,7 @@ Page {
         delegate: ListItem {
             Label {
                 text: service
-                width: ListView.view.width
+                // width: ListView.view.width
                 height: Theme.itemSizeSmall
             }
         }
