@@ -3,8 +3,12 @@ import Sailfish.Silica 1.0
 
 
 Page {
+    id: page
+    allowedOrientations: Orientation.All
+
     SilicaListView {
         anchors.fill: parent
+        model: servicesModel
 
         header: PageHeader { title: "D-Bus services" }
 
@@ -17,12 +21,16 @@ Page {
             }
         }
 
-        model: servicesModel
-        delegate: ListItem {
+        delegate: BackgroundItem {
+            width: ListView.view.width
             Label {
                 text: service
-                // width: ListView.view.width
+                font.pixelSize: Theme.fontSizeExtraSmall
+                x: Theme.paddingSmall
                 height: Theme.itemSizeSmall
+                width: page.width - 2*Theme.paddingSmall
+                truncationMode: TruncationMode.Fade
+                color: Theme.primaryColor
             }
         }
     }
