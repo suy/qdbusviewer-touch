@@ -4,7 +4,12 @@
 #include <QQmlContext>
 #include <QQuickView>
 
+// Argh, do I need the whole module for qmlRegisterType?? Insane, but seems so.
+#include <QtQml>
+
 #include "src/dbusservicesmodel.h"
+#include "src/helper.h"
+#include "src/qmldbusmodel.h"
 
 // FIXME: Caution, Q_OS_SAILFISH is a non-"standard" (Qt provided) define.
 #ifdef Q_OS_SAILFISH
@@ -13,11 +18,14 @@
 
 int main(int argc, char* argv[])
 {
+    qmlRegisterType<QmlDBusModel>("org.qt-project.qmldbusmodel", 1, 0, "QmlDBusModel");
+    Helper helper;
 #ifdef Q_OS_SAILFISH
     QScopedPointer<QGuiApplication> application(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> view(SailfishApp::createView());
     DBusServicesModel servicesModel(QDBusConnection::systemBus());
     view->rootContext()->setContextProperty("servicesModel", &servicesModel);
+    view->rootContext()->setContextProperty("helper", &helper);
     view->setSource(SailfishApp::pathTo("qml/dbusviewertouch.qml"));
     view->show();
 #else
@@ -25,6 +33,7 @@ int main(int argc, char* argv[])
     QQmlApplicationEngine engine;
     DBusServicesModel servicesModel(QDBusConnection::systemBus());
     engine.rootContext()->setContextProperty(QStringLiteral("servicesModel"), &servicesModel);
+    engine.rootContext()->setContextProperty("helper", &helper);
 #endif
 
     qSetMessagePattern(QStringLiteral("["

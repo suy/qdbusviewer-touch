@@ -2,8 +2,12 @@ QT = core dbus gui quick xml
 TARGET = dbusviewertouch
 CONFIG += c++11
 
-SOURCES = src/main.cpp src/dbusservicesmodel.cpp
-HEADERS = src/dbusservicesmodel.h
+SOURCES = src/main.cpp src/dbusservicesmodel.cpp src/qmldbusmodel.cpp \
+    qttools/src/qdbus/qdbusviewer/qdbusmodel.cpp \
+    src/helper.cpp
+HEADERS = src/dbusservicesmodel.h src/qmldbusmodel.h \
+    qttools/src/qdbus/qdbusviewer/qdbusmodel.h \
+    src/helper.h
 
 RESOURCES = dbusviewertouch.qrc
 

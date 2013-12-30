@@ -6,25 +6,18 @@ Page {
     id: page
     allowedOrientations: Orientation.All
 
+    property string service
+
     SilicaListView {
         anchors.fill: parent
         model: servicesModel
 
-        header: PageHeader { title: "D-Bus services" }
-
-        // PullDownMenu and PushUpMenu must be declared in SilicaFlickable,
-        // SilicaListView or SilicaGridView
-        PullDownMenu {
-            MenuItem {
-                text: "Refresh"
-                onClicked: servicesModel.refresh()
-            }
-        }
+        header: PageHeader { title: service }
 
         delegate: BackgroundItem {
             width: ListView.view.width
             Label {
-                text: service
+                text: "foo"
                 font.pixelSize: Theme.fontSizeExtraSmall
                 x: Theme.paddingSmall
                 height: Theme.itemSizeSmall
@@ -32,8 +25,9 @@ Page {
                 truncationMode: TruncationMode.Fade
                 color: Theme.primaryColor
             }
-            onClicked: pageStack.push("MethodsPage.qml", {"service": service});
         }
     }
 }
+
+
 
