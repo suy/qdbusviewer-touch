@@ -1,17 +1,27 @@
 #ifndef QMLDBUSMODEL_H
 #define QMLDBUSMODEL_H
 
-#include "qttools/src/qdbus/qdbusviewer/qdbusmodel.h"
+#include <QSortFilterProxyModel>
 
-class QmlDBusModel : public QDBusModel
+class QDBusModel;
+
+class QmlDBusModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 public:
-    explicit QmlDBusModel(const QString &service, const QDBusConnection &connection);
+    explicit QmlDBusModel(QObject* parent = 0);
 
-signals:
+    QHash<int, QByteArray> roleNames() const {
+        QHash<int, QByteArray> roles;
+        roles[Qt::UserRole] = "info";
+        return roles;
+    }
+    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    Q_INVOKABLE void setService(QString service);
 
-public slots:
+private:
+    QDBusModel* current;
+
 
 };
 

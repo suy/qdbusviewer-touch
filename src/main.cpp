@@ -18,7 +18,7 @@
 
 int main(int argc, char* argv[])
 {
-    qmlRegisterType<QmlDBusModel>("org.qt-project.qmldbusmodel", 1, 0, "QmlDBusModel");
+    qmlRegisterType<QmlDBusModel>("My.QmlDBusModel", 0, 1, "QmlDBusModel");
     Helper helper;
 #ifdef Q_OS_SAILFISH
     QScopedPointer<QGuiApplication> application(SailfishApp::application(argc, argv));
