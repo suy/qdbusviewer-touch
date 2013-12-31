@@ -8,16 +8,22 @@ Page {
     allowedOrientations: Orientation.All
 
     property string service
+    property bool sessionBus
 
     Component.onCompleted: dbusmodel.setService(service);
 
     SilicaListView {
         anchors.fill: parent
+        header: PageHeader { title: service }
+
         model: QmlDBusModel {
             id: dbusmodel
         }
 
-        header: PageHeader { title: service }
+        ViewPlaceholder {
+            enabled: parent.count === 0
+            text: "No objects or interfaces found"
+        }
 
         delegate: BackgroundItem {
             width: ListView.view.width
@@ -33,6 +39,4 @@ Page {
         }
     }
 }
-
-
 
