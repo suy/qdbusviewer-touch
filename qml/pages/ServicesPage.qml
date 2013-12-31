@@ -7,8 +7,9 @@ Page {
     allowedOrientations: Orientation.All
 
     SilicaListView {
+        id: servicesList
         anchors.fill: parent
-        model: servicesModel
+        model: sessionBusModel
 
         header: PageHeader { title: "D-Bus services" }
 
@@ -17,7 +18,15 @@ Page {
         PullDownMenu {
             MenuItem {
                 text: "Refresh"
-                onClicked: servicesModel.refresh()
+                onClicked: servicesList.model.refresh()
+            }
+            MenuItem {
+                text: "Session Bus"
+                onClicked: servicesList.model = sessionBusModel
+            }
+            MenuItem {
+                text: "System Bus"
+                onClicked: servicesList.model = systemBusModel
             }
         }
 

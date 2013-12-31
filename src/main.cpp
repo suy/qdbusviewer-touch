@@ -23,16 +23,20 @@ int main(int argc, char* argv[])
 #ifdef Q_OS_SAILFISH
     QScopedPointer<QGuiApplication> application(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> view(SailfishApp::createView());
-    DBusServicesModel servicesModel(QDBusConnection::systemBus());
-    view->rootContext()->setContextProperty("servicesModel", &servicesModel);
+    DBusServicesModel systemBusModel(QDBusConnection::systemBus());
+    DBusServicesModel sessionBusModel(QDBusConnection::sessionBus());
+    view->rootContext()->setContextProperty("systemBusModel", &systemBusModel);
+    view->rootContext()->setContextProperty("sessionBusModel", &sessionBusModel);
     view->rootContext()->setContextProperty("helper", &helper);
     view->setSource(SailfishApp::pathTo("qml/dbusviewertouch.qml"));
     view->show();
 #else
     QGuiApplication application(argc, argv);
     QQmlApplicationEngine engine;
-    DBusServicesModel servicesModel(QDBusConnection::systemBus());
-    engine.rootContext()->setContextProperty(QStringLiteral("servicesModel"), &servicesModel);
+    DBusServicesModel systemBusModel(QDBusConnection::systemBus());
+    DBusServicesModel sessionBusModel(QDBusConnection::sessionBus());
+    engine.rootContext()->setContextProperty(QStringLiteral("systemBusModel"), &systemBusModel);
+    engine.rootContext()->setContextProperty(QStringLiteral("sessionBusModel"), &sessionBusModel);
     engine.rootContext()->setContextProperty("helper", &helper);
 #endif
 
