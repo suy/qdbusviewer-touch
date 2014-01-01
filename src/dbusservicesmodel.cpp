@@ -34,56 +34,6 @@ QHash<int, QByteArray> DBusServicesModel::roleNames() const
     return roles;
 }
 
-// QVariant DBusServicesModel::data(const QModelIndex& i, int role) const
-// {
-//     if (role != ServiceRole || i.row() > m_services.length()) {
-//         return QVariant();
-//     }
-//     return m_services.at(i.row());
-// }
-
-// int DBusServicesModel::rowCount(const QModelIndex&) const
-// {
-//     return m_services.count();
-// }
-
-//
-// For the model as well, but optional.
-//
-// bool DBusServicesModel::insertRows(int row, int count, const QModelIndex&)
-// {
-//     qDebug() << "row" << row << "count" << count << "size" << m_services.size();
-//     qDebug() << "before" << m_services;
-//     beginInsertRows(QModelIndex(), row, row+count);
-//     m_services.append(QString());
-//     endInsertRows();
-//     qDebug() << "after" << m_services;
-//     return true;
-// }
-
-// bool DBusServicesModel::removeRows(int row, int count, const QModelIndex&)
-// {
-//     qDebug() << "row" << row << "count" << count << "size" << m_services.size();
-//     qDebug() << "before" << m_services;
-//     beginRemoveRows(QModelIndex(), row, row+count);
-//     for (int i=0; i < count; i++) {
-//         m_services.removeAt(row+i);
-//     }
-//     endRemoveRows();
-//     qDebug() << "after" << m_services;
-//     return true;
-// }
-
-// bool DBusServicesModel::setData(const QModelIndex& i, const QVariant& data, int role)
-// {
-//     if (role == ServiceRole) {
-//         QString s = m_services.at(i.row());
-//         s = data.toString();
-//         return true;
-//     }
-//     return false;
-// }
-
 
 void DBusServicesModel::serviceRegistered(const QString& service)
 {
@@ -92,8 +42,8 @@ void DBusServicesModel::serviceRegistered(const QString& service)
     if (service == m_connection.baseService())
         return;
 
-    this->insertRows(0, 1);
-    this->setData(this->index(0, 0), service, ServiceRole);
+    insertRows(0, 1);
+    setData(this->index(0, 0), service, Qt::DisplayRole);
 }
 
 QModelIndex DBusServicesModel::findItem(const QString &name)
@@ -118,7 +68,7 @@ void DBusServicesModel::serviceUnregistered(const QString &name)
 }
 
 void DBusServicesModel::serviceOwnerChanged(const QString &name, const QString &oldOwner,
-                                      const QString &newOwner)
+                                            const QString &newOwner)
 {
     qDebug() << name << oldOwner << newOwner;
 
@@ -127,40 +77,21 @@ void DBusServicesModel::serviceOwnerChanged(const QString &name, const QString &
     if (!hit.isValid() && oldOwner.isEmpty() && !newOwner.isEmpty())
         serviceRegistered(name);
     else if (hit.isValid() && !oldOwner.isEmpty() && newOwner.isEmpty())
-        this->removeRows(hit.row(), 1);
+        removeRows(hit.row(), 1);
     else if (hit.isValid() && !oldOwner.isEmpty() && !newOwner.isEmpty()) {
-        this->removeRows(hit.row(), 1);
+        removeRows(hit.row(), 1);
         serviceRegistered(name);
     }
 }
 
 void DBusServicesModel::refresh()
 {
-    // qDebug() << "before" << stringList();
-    // beginRemoveRows(QModelIndex(), 0, rowCount());
-    // this->removeRows(0, this->rowCount());
-    // endRemoveRows();
-
-    if (m_connection.isConnected()) {
-        const QStringList names = m_connection.interface()->registeredServiceNames();
-        this->setStringList(names);
-        // beginInsertRows(QModelIndex(), rowCount(), rowCount());
-        // m_services = names;
-        // endInsertRows();
-        // this->setStringList(serviceNames);
-        // for (const auto& name : names) {
-        //     qDebug() << name;
-        //
-        // }
+    if (!m_connection.isConnected()) {
+        qCritical() << "D-Bus connection lost. Can't refresh";
+        return;
     }
-    // qDebug() << "after" << stringList();
-}
 
-// void DBusServicesModel::refreshChildren()
-// {
-//     QDBusModel *model = qobject_cast<DBusServicesModel *>(tree->model());
-//     if (!model)
-//         return;
-//     model->refresh(tree->currentIndex());
-// }
+    const QStringList names = m_connection.interface()->registeredServiceNames();
+    setStringList(names);
+}
 
