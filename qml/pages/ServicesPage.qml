@@ -44,21 +44,26 @@ Page {
         }
 
         delegate: BackgroundItem {
+            id: backgroundItem
             width: ListView.view.width
             Label {
                 text: service
-                font.pixelSize: Theme.fontSizeExtraSmall
                 x: Theme.paddingSmall
+                anchors.verticalCenter: parent.verticalCenter
                 height: Theme.itemSizeSmall
                 width: page.width - 2*Theme.paddingSmall
+                font.pixelSize: Theme.fontSizeExtraSmall
+                font.bold: myself === true
+                color: myself === true? Theme.secondaryColor: Theme.primaryColor
                 truncationMode: TruncationMode.Fade
-                color: Theme.primaryColor
             }
             onClicked: {
                 pageStack.push("MethodsPage.qml",
                     {"service": service, "sessionBus": sessionBus}
                 );
             }
+            ListView.onAdd:    AddAnimation    { target: backgroundItem }
+            ListView.onRemove: RemoveAnimation { target: backgroundItem }
         }
     }
 }

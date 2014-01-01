@@ -31,6 +31,7 @@ QHash<int, QByteArray> DBusServicesModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[Qt::DisplayRole] = "service";
+    roles[MyselfRole] = "myself";
     return roles;
 }
 
@@ -95,3 +96,18 @@ void DBusServicesModel::refresh()
     setStringList(names);
 }
 
+QVariant DBusServicesModel::data(const QModelIndex& i, int role) const
+{
+    if (role == Qt::DisplayRole) {
+        return QStringListModel::data(i, role);
+    }
+
+    if (i.data(Qt::DisplayRole).toString() == m_connection.baseService()
+        && role == MyselfRole)
+    {
+        qDebug() << "Found myself" << m_connection.baseService();
+        return QVariant(true);
+    }
+
+    return QVariant();
+}
