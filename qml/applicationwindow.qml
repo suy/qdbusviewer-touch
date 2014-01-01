@@ -5,23 +5,33 @@ import QtQuick.Layouts 1.0
 ApplicationWindow {
     width: 800; height: 600
 
-    property variant sessionBus: true
+    property bool sessionBus: true
 
     toolBar: ToolBar {
         RowLayout {
             anchors.fill: parent
             ToolButton {
                 text: "Session Bus"
+                id: sessionBusButton
+                checkable: true
+                checked: sessionBus
                 onClicked: {
                     servicesList.model = sessionBusModel;
                     sessionBus=true;
+                    checked=sessionBus
+                    systemBusButton.checked=false;
                 }
             }
             ToolButton {
                 text: "System Bus"
+                id: systemBusButton
+                checkable: true
+                checked: !sessionBus
                 onClicked: {
                     servicesList.model = systemBusModel;
                     sessionBus=false;
+                    checked=!sessionBus
+                    sessionBusButton.checked=false;
                 }
             }
             ToolButton {
@@ -31,12 +41,13 @@ ApplicationWindow {
         }
     }
 
-    ListView {
+    TableView {
         id: servicesList
         anchors.fill: parent
+        headerVisible: false
         model: sessionBusModel
-        delegate: Text {
-            text: service
+        TableViewColumn {
+            role: "service"
         }
     }
 }
