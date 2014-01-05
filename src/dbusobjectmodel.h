@@ -13,7 +13,8 @@ public:
     QVariant data(const QModelIndex& index, int role) const;
     QHash<int, QByteArray> roleNames() const {
         QHash<int, QByteArray> roles;
-        roles[Qt::UserRole] = "info";
+        roles[Qt::UserRole+0] = "name";
+        roles[Qt::UserRole+1] = "type";
         return roles;
     }
 

@@ -31,7 +31,8 @@ Page {
         delegate: BackgroundItem {
             width: ListView.view.width
             Label {
-                text: info
+                // text: name + " (" + type + ")"
+                text: String("%1 (%2)").arg(name).arg(type)
                 font.pixelSize: Theme.fontSizeExtraSmall
                 x: Theme.paddingSmall
                 height: Theme.itemSizeSmall
