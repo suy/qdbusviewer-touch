@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
 #include <QQmlContext>
+#include <QQuickItem>
 #include <QQuickView>
 
 // Argh, do I need the whole module for qmlRegisterType?? Insane, but seems so.
@@ -30,6 +31,10 @@ int main(int argc, char* argv[])
     view->rootContext()->setContextProperty("helper", &helper);
     view->setSource(SailfishApp::pathTo("qml/dbusviewertouch.qml"));
     view->show();
+
+    QObject::connect(view->rootObject(), SIGNAL(backToStart()),
+                    &helper, SLOT(onBackToStart()));
+
 #else
     QGuiApplication application(argc, argv);
     QQmlApplicationEngine engine;

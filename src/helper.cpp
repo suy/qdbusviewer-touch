@@ -33,3 +33,9 @@ DBusObjectModel* Helper::makeModel(bool session, QString service, QString object
 
     return model;
 }
+
+void Helper::onBackToStart()
+{
+    delete m_model;
+    m_model = nullptr;
+}
