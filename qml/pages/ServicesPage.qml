@@ -59,7 +59,7 @@ Page {
             }
             onClicked: {
                 pageStack.push("MethodsPage.qml",
-                    {"service": service, "sessionBus": sessionBus}
+                    {"service": service, "sessionBus": sessionBus, "objectPath": "/"}
                 );
             }
             ListView.onAdd:    AddAnimation    { target: backgroundItem }

@@ -7,8 +7,9 @@ Page {
     id: page
     allowedOrientations: Orientation.All
 
-    property string service
     property bool sessionBus
+    property string service
+    property string objectPath
 
     Component.onCompleted: dbusmodel.setService(service);
 
