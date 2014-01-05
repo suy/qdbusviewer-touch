@@ -38,7 +38,7 @@ packagesExist(sailfishapp) {
     # QML files.
 	OTHER_FILES += qml/dbusviewertouch.qml \
         qml/pages/ServicesPage.qml \
-		qml/pages/SecondPage.qml \
+        qml/pages/ObjectPage.qml \
 
     # Deployment/packaging.
     OTHER_FILES += \
