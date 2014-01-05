@@ -41,13 +41,22 @@ ApplicationWindow {
         }
     }
 
-    TableView {
-        id: servicesList
+    TabView {
         anchors.fill: parent
-        headerVisible: false
-        model: sessionBusModel
-        TableViewColumn {
-            role: "service"
+        id: stack
+        Tab {
+            title: "Services"
+            TableView {
+                id: servicesList
+                anchors.fill: parent
+                headerVisible: false
+                model: sessionBusModel
+                // onClicked: stack.addTab(row)
+                onClicked: console.log(model, row)
+                TableViewColumn {
+                    role: "service"
+                }
+            }
         }
     }
 }
