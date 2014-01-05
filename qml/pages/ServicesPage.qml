@@ -6,7 +6,7 @@ Page {
     id: page
     allowedOrientations: Orientation.All
 
-    property variant sessionBus: true
+    property bool sessionBus: true
 
     SilicaListView {
         id: servicesList
