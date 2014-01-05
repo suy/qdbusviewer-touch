@@ -11,7 +11,7 @@ Page {
     property string objectPath
 
     Component.onCompleted: {
-        console.log("MethodsPage for ", (sessionBus? "session": "system"), " bus");
+        console.log("ObjectPage for ", (sessionBus? "session": "system"), " bus");
         console.log(service, objectPath);
         var m = helper.makeModel(sessionBus, service, objectPath);
         console.log(m);

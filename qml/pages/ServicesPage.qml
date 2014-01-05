@@ -58,7 +58,7 @@ Page {
                 truncationMode: TruncationMode.Fade
             }
             onClicked: {
-                pageStack.push("MethodsPage.qml",
+                pageStack.push("ObjectPage.qml",
                     {"service": service, "sessionBus": sessionBus, "objectPath": "/"}
                 );
             }
