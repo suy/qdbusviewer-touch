@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import My.QmlDBusModel 0.1
 
 
 Page {
@@ -11,15 +10,18 @@ Page {
     property string service
     property string objectPath
 
-    Component.onCompleted: dbusmodel.setService(service);
+    Component.onCompleted: {
+        console.log("MethodsPage for ", (sessionBus? "session": "system"), " bus");
+        console.log(service, objectPath);
+        var m = helper.makeModel(sessionBus, service, objectPath);
+        console.log(m);
+        contents.model = m;
+    }
 
     SilicaListView {
+        id: contents
         anchors.fill: parent
         header: PageHeader { title: service }
-
-        model: QmlDBusModel {
-            id: dbusmodel
-        }
 
         ViewPlaceholder {
             enabled: parent.count === 0

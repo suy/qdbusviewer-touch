@@ -9,7 +9,7 @@
 
 #include "src/dbusservicesmodel.h"
 #include "src/helper.h"
-#include "src/qmldbusmodel.h"
+#include "src/dbusobjectmodel.h"
 
 // FIXME: Caution, Q_OS_SAILFISH is a non-"standard" (Qt provided) define.
 #ifdef Q_OS_SAILFISH
@@ -18,7 +18,7 @@
 
 int main(int argc, char* argv[])
 {
-    qmlRegisterType<QmlDBusModel>("My.QmlDBusModel", 0, 1, "QmlDBusModel");
+    qmlRegisterType<DBusObjectModel>("My.DBusObjectModel", 0, 1, "DBusObjectModel");
     Helper helper;
 #ifdef Q_OS_SAILFISH
     QScopedPointer<QGuiApplication> application(SailfishApp::application(argc, argv));
