@@ -40,6 +40,15 @@ Page {
                 truncationMode: TruncationMode.Fade
                 color: Theme.primaryColor
             }
+            onClicked: {
+                console.log(name, type);
+                if (type === "path") {
+                    pageStack.push("ObjectPage.qml",
+                        {"service": service, "sessionBus": sessionBus,
+                        "objectPath": path}
+                    );
+                }
+            }
         }
     }
 }
