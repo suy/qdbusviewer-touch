@@ -32,7 +32,7 @@ Page {
             width: ListView.view.width
             Label {
                 // text: name + " (" + type + ")"
-                text: String("%1 (%2)").arg(name).arg(type)
+                text: String("%1 (%2) - %3").arg(name).arg(type).arg(path)
                 font.pixelSize: Theme.fontSizeExtraSmall
                 x: Theme.paddingSmall
                 height: Theme.itemSizeSmall

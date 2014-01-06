@@ -1,26 +1,33 @@
 #ifndef DBUSOBJECTMODEL_H
 #define DBUSOBJECTMODEL_H
 
-#include <QIdentityProxyModel>
+#include <QAbstractListModel>
 
-class DBusObjectModel : public QIdentityProxyModel
+class QDBusModel;
+
+class DBusObjectModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
+    enum Roles {NameRole = Qt::UserRole+1, TypeRole, PathRole};
+
     explicit DBusObjectModel(QObject *parent = 0);
     void setObjectPath(QString path);
 
-    QVariant data(const QModelIndex& index, int role) const;
-    QHash<int, QByteArray> roleNames() const {
+    QVariant data(const QModelIndex& index, int role) const Q_DECL_FINAL;
+    QHash<int, QByteArray> roleNames() const Q_DECL_FINAL {
         QHash<int, QByteArray> roles;
-        roles[Qt::UserRole+0] = "name";
-        roles[Qt::UserRole+1] = "type";
+        roles[NameRole] = "name";
+        roles[TypeRole] = "type";
+        roles[PathRole] = "path";
         return roles;
     }
 
-private:
-    QString m_objectPath;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const Q_DECL_FINAL;
 
+private:
+    QPersistentModelIndex m_index;
+    QDBusModel* m_model;
 };
 
 #endif // DBUSOBJECTMODEL_H

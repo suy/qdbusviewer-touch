@@ -2,51 +2,64 @@
 #include "qttools/src/qdbus/qdbusviewer/qdbusmodel.h"
 
 #include <QDebug>
+#include <QDBusObjectPath>
 
 DBusObjectModel::DBusObjectModel(QObject *parent)
-    : QIdentityProxyModel(parent)
+    : QAbstractListModel(parent)
 {
-    QAbstractItemModel* model = static_cast<QAbstractItemModel*>(parent);
-    Q_ASSERT_X(model, Q_FUNC_INFO, "The parent has to be a QAbstractItemModel");
-    setSourceModel(model);
+    m_model = static_cast<QDBusModel*>(parent);
+    Q_ASSERT_X(m_model, Q_FUNC_INFO, "The parent has to be a QDBusModel");
 }
 
 void DBusObjectModel::setObjectPath(QString path)
 {
-    m_objectPath = path;
+    m_index = m_model->findObject(QDBusObjectPath(path));
+}
+
+
+int DBusObjectModel::rowCount(const QModelIndex& parent) const
+{
+    Q_UNUSED(parent);
+    return m_model->rowCount(m_index);
 }
 
 
 QVariant DBusObjectModel::data(const QModelIndex& index, int role) const
 {
-    if (role == Qt::UserRole) {
-        return QIdentityProxyModel::data(index, Qt::DisplayRole);
-    }
+    QModelIndex mapped = m_model->index(index.row(), index.column(), m_index);
 
-    const QDBusItem *item = static_cast<QDBusItem *>(index.internalPointer());
-    if (!item) {
-        qWarning() << "No item at" << index;
+    if (!mapped.isValid()) {
+        qWarning() << "Can't map" << index << "to our" << m_index;
         return QVariant();
     }
 
-    if (role == Qt::UserRole) {
-        return QIdentityProxyModel::data(index, Qt::DisplayRole);
+    if (role == NameRole) {
+        return m_model->data(mapped, Qt::DisplayRole);
     }
 
-    if (role == Qt::UserRole+1) {
-        QDBusModel* model = static_cast<QDBusModel*>(QObject::parent());
-        QDBusModel::Type type = model->itemType(index);
+    if (role == PathRole) {
+        return m_model->dBusPath(mapped);
+    }
 
+    // TODO: use an enum registered in QML.
+    if (role == TypeRole) {
+        QDBusModel::Type type = m_model->itemType(mapped);
         switch (type) {
         case QDBusModel::InterfaceItem:
             return "interface";
         case QDBusModel::PathItem:
             return "path";
+        case QDBusModel::MethodItem:
+            return "method";
+        case QDBusModel::SignalItem:
+            return "signal";
+        case QDBusModel::PropertyItem:
+            return "property";
         default:
             return "default";
         }
     }
 
-    return QIdentityProxyModel::data(index, role);
+    return m_model->data(mapped, role);
 }
 
