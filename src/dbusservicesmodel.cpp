@@ -1,3 +1,7 @@
+#ifndef DEBUG_DBUSSERVICESMODEL
+#define QT_NO_DEBUG_OUTPUT
+#endif
+
 #include <QDBusConnectionInterface>
 #include <QDBusError>
 #include <QDebug>
