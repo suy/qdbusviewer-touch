@@ -33,6 +33,10 @@ QVariant DBusObjectModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
+    if (role == SectionRole) {
+        role = TypeRole;
+    }
+
     if (role == NameRole) {
         return m_model->data(mapped, Qt::DisplayRole);
     }

@@ -9,7 +9,7 @@ class DBusObjectModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    enum Roles {NameRole = Qt::UserRole+1, TypeRole, PathRole};
+    enum Roles {NameRole = Qt::UserRole+1, TypeRole, PathRole, SectionRole};
 
     explicit DBusObjectModel(QObject *parent = 0);
     void setObjectPath(QString path);
@@ -19,6 +19,7 @@ public:
         QHash<int, QByteArray> roles;
         roles[NameRole] = "name";
         roles[TypeRole] = "type";
+        roles[SectionRole] = "section";
         roles[PathRole] = "path";
         return roles;
     }
