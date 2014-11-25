@@ -12,8 +12,7 @@
 #include "src/helper.h"
 #include "src/dbusobjectmodel.h"
 
-// FIXME: Caution, Q_OS_SAILFISH is a non-"standard" (Qt provided) define.
-#ifdef Q_OS_SAILFISH
+#ifdef OS_SAILFISH
 #include <sailfishapp.h>
 #endif
 
@@ -27,7 +26,7 @@ int main(int argc, char* argv[])
     qmlRegisterType<DBusObjectModel>("My.DBusObjectModel", 0, 1, "DBusObjectModel");
     Helper helper;
 
-#ifdef Q_OS_SAILFISH
+#ifdef OS_SAILFISH
     QScopedPointer<QGuiApplication> application(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> view(SailfishApp::createView());
     QQmlContext* context = view->rootContext();
@@ -44,7 +43,7 @@ int main(int argc, char* argv[])
     context->setContextProperty(QStringLiteral("systemBusModel"), &systemBusModel);
     context->setContextProperty(QStringLiteral("sessionBusModel"), &sessionBusModel);
 
-#ifdef Q_OS_SAILFISH
+#ifdef OS_SAILFISH
     view->setSource(SailfishApp::pathTo("qml/dbusviewertouch.qml"));
     view->show();
 

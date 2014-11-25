@@ -35,7 +35,7 @@ packagesExist(sailfishapp) {
 
 	# Where main() is provided.
 	# SOURCES += src/dbusviewertouch.cpp
-    DEFINES += Q_OS_SAILFISH
+    DEFINES += OS_SAILFISH
 
     # QML files.
 	OTHER_FILES += qml/dbusviewertouch.qml \
