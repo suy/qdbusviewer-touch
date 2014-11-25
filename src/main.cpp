@@ -19,40 +19,39 @@
 
 int main(int argc, char* argv[])
 {
+    qSetMessagePattern(QStringLiteral("["
+        "%{if-debug}D%{endif}%{if-warning}W%{endif}"
+        "%{if-critical}C%{endif}%{if-fatal}F%{endif}"
+        "] %{function}\n    %{message}"
+    ));
     qmlRegisterType<DBusObjectModel>("My.DBusObjectModel", 0, 1, "DBusObjectModel");
     Helper helper;
+
 #ifdef Q_OS_SAILFISH
     QScopedPointer<QGuiApplication> application(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> view(SailfishApp::createView());
+    QQmlContext* context = view->rootContext();
+#else // Desktop for now only.
+    QGuiApplication application(argc, argv);
+    QQmlApplicationEngine engine;
+    QQmlContext* context = engine.rootContext();
+#endif
+
     DBusServicesModel systemBusModel(QDBusConnection::systemBus());
     DBusServicesModel sessionBusModel(QDBusConnection::sessionBus());
-    view->rootContext()->setContextProperty("systemBusModel", &systemBusModel);
-    view->rootContext()->setContextProperty("sessionBusModel", &sessionBusModel);
-    view->rootContext()->setContextProperty("helper", &helper);
+
+    context->setContextProperty(QStringLiteral("helper"), &helper);
+    context->setContextProperty(QStringLiteral("systemBusModel"), &systemBusModel);
+    context->setContextProperty(QStringLiteral("sessionBusModel"), &sessionBusModel);
+
+#ifdef Q_OS_SAILFISH
     view->setSource(SailfishApp::pathTo("qml/dbusviewertouch.qml"));
     view->show();
 
     QObject::connect(view->rootObject(), SIGNAL(backToStart()),
                     &helper, SLOT(onBackToStart()));
-
-#else
-    QGuiApplication application(argc, argv);
-    QQmlApplicationEngine engine;
-    DBusServicesModel systemBusModel(QDBusConnection::systemBus());
-    DBusServicesModel sessionBusModel(QDBusConnection::sessionBus());
-    engine.rootContext()->setContextProperty(QStringLiteral("systemBusModel"), &systemBusModel);
-    engine.rootContext()->setContextProperty(QStringLiteral("sessionBusModel"), &sessionBusModel);
-    engine.rootContext()->setContextProperty("helper", &helper);
-#endif
-
-    qSetMessagePattern(QStringLiteral("["
-        "%{if-debug}D%{endif}%{if-warning}W%{endif}%{if-critical}C%{endif}%{if-fatal}F%{endif}"
-        "] %{function}\n    %{message}"
-    ));
-
-#ifdef Q_OS_SAILFISH
     return application->exec();
-#else
+#else // Desktop for now only.
     engine.load(QUrl("qrc:/qml/applicationwindow.qml"));
 
     // There is only one root object in our QML file.
