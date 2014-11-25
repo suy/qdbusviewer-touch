@@ -1,12 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QQuickWindow>
 #include <QQmlContext>
 #include <QQuickItem>
 #include <QQuickView>
-
-// Argh, do I need the whole module for qmlRegisterType?? Insane, but seems so.
-#include <QtQml>
+#include <QQuickWindow>
 
 #include "src/dbusservicesmodel.h"
 #include "src/helper.h"
