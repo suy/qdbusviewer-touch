@@ -28,13 +28,11 @@ private slots:
 	void serviceUnregistered(const QString &name);
     void serviceOwnerChanged(const QString &name, const QString &oldOwner,
                              const QString &newOwner);
-    // void refreshChildren();
 
 private:
     QModelIndex findItem(const QString &name);
 
 	QDBusConnection m_connection;
-    // QStringList m_services;
 
 };
 
