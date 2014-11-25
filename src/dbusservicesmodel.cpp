@@ -72,7 +72,8 @@ void DBusServicesModel::serviceUnregistered(const QString &name)
     this->removeRows(hit.row(), 1);
 }
 
-void DBusServicesModel::serviceOwnerChanged(const QString &name, const QString &oldOwner,
+void DBusServicesModel::serviceOwnerChanged(const QString &name,
+                                            const QString &oldOwner,
                                             const QString &newOwner)
 {
     qDebug() << name << oldOwner << newOwner;
