@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
     QScopedPointer<QGuiApplication> application(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> view(SailfishApp::createView());
     QQmlContext* context = view->rootContext();
-#else // Desktop for now only.
+#else // Desktop only for now.
     QGuiApplication application(argc, argv);
     QQmlApplicationEngine engine;
     QQmlContext* context = engine.rootContext();
@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
     QObject::connect(view->rootObject(), SIGNAL(backToStart()),
                     &helper, SLOT(onBackToStart()));
     return application->exec();
-#else // Desktop for now only.
+#else // Desktop only for now.
     engine.load(QUrl("qrc:/qml/applicationwindow.qml"));
 
     // There is only one root object in our QML file.
