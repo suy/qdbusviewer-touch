@@ -1,4 +1,4 @@
-Name: dbusviewertouch
+Name: harbour-dbusviewertouch
 Summary: D-Bus Viewer Touch
 Version: 0.1
 Release: 1
@@ -24,6 +24,6 @@ Files:
 - '%{_datadir}/applications/%{name}.desktop'
 - '%{_datadir}/icons/hicolor/86x86/apps/%{name}.png'
 - /usr/bin
-- /usr/share/dbusviewertouch
+- /usr/share/harbour-dbusviewertouch
 - /usr/share/applications
 - /usr/share/icons/hicolor/86x86/apps

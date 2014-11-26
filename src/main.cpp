@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
     context->setContextProperty(QStringLiteral("sessionBusModel"), &sessionBusModel);
 
 #ifdef OS_SAILFISH
-    view->setSource(SailfishApp::pathTo("qml/dbusviewertouch.qml"));
+    view->setSource(SailfishApp::pathTo("qml/harbour-dbusviewertouch.qml"));
     view->show();
 
     QObject::connect(view->rootObject(), SIGNAL(backToStart()),

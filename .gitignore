@@ -7,4 +7,4 @@ Makefile
 .clang_complete
 .localrc.vim
 # For SailfishOS.
-rpm/dbusviewertouch.spec
+rpm/*.spec
