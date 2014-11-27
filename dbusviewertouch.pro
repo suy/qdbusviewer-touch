@@ -44,7 +44,7 @@ packagesExist(sailfishapp) {
 }
 ## FIXME: a better fallback for "desktop" cases?
 else {
-    message(Building on desktop)
+    message(Building for desktop)
     OTHER_FILES += \
         qml/applicationwindow.qml
 }
