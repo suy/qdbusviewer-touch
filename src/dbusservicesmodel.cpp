@@ -34,8 +34,8 @@ DBusServicesModel::DBusServicesModel(const QDBusConnection& connection,
 QHash<int, QByteArray> DBusServicesModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[Qt::DisplayRole] = "service";
-    roles[MyselfRole] = "myself";
+    roles[Qt::DisplayRole] = "service"; // Service name, e.g. ':1.8'.
+    roles[Qt::UserRole] = "myself";  // Whether this is the service of the app.
     return roles;
 }
 
@@ -103,16 +103,19 @@ void DBusServicesModel::refresh()
 
 QVariant DBusServicesModel::data(const QModelIndex& i, int role) const
 {
+    // Usual case: the "service" property on the QML delegate.
     if (role == Qt::DisplayRole) {
         return QStringListModel::data(i, role);
     }
 
+    // The "myself" property when true.
     if (i.data(Qt::DisplayRole).toString() == m_connection.baseService()
-        && role == MyselfRole)
+        && role == Qt::UserRole)
     {
         qDebug() << "Found myself" << m_connection.baseService();
         return QVariant(true);
     }
 
+    // All other cases.
     return QVariant();
 }

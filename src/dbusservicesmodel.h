@@ -9,11 +9,6 @@ class DBusServicesModel : public QStringListModel
 {
     Q_OBJECT
 public:
-	enum DBusRoles {
-		ServiceRole = Qt::UserRole,
-        MyselfRole,
-	};
-
     explicit DBusServicesModel(const QDBusConnection& connection, QObject *parent = 0);
 
     // For the model.
