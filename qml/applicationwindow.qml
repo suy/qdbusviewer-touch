@@ -5,34 +5,20 @@ import QtQuick.Layouts 1.0
 ApplicationWindow {
     width: 800; height: 600
 
-    property bool sessionBus: true
-
     toolBar: ToolBar {
         RowLayout {
             anchors.fill: parent
+            ExclusiveGroup { id: chosenBusGroup }
             ToolButton {
-                text: "Session Bus"
-                id: sessionBusButton
+                text: qsTr("Session Bus")
                 checkable: true
-                checked: sessionBus
-                onClicked: {
-                    servicesList.model = sessionBusModel;
-                    sessionBus=true;
-                    checked=sessionBus
-                    systemBusButton.checked=false;
-                }
+                checked: true
+                exclusiveGroup: chosenBusGroup
             }
             ToolButton {
-                text: "System Bus"
-                id: systemBusButton
+                text: qsTr("System Bus")
                 checkable: true
-                checked: !sessionBus
-                onClicked: {
-                    servicesList.model = systemBusModel;
-                    sessionBus=false;
-                    checked=!sessionBus
-                    sessionBusButton.checked=false;
-                }
+                exclusiveGroup: chosenBusGroup
             }
             ToolButton {
                 text: "Refresh"
@@ -43,7 +29,6 @@ ApplicationWindow {
 
     TabView {
         anchors.fill: parent
-        id: stack
         Tab {
             title: "Services"
             TableView {
@@ -51,7 +36,6 @@ ApplicationWindow {
                 anchors.fill: parent
                 headerVisible: false
                 model: sessionBusModel
-                // onClicked: stack.addTab(row)
                 onClicked: console.log(model, row)
                 TableViewColumn {
                     role: "service"
