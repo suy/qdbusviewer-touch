@@ -21,7 +21,7 @@ ApplicationWindow {
                 exclusiveGroup: chosenBusGroup
             }
             ToolButton {
-                text: "Refresh"
+                text: qsTr("Refresh")
                 onClicked: servicesList.model.refresh()
             }
         }
@@ -30,7 +30,7 @@ ApplicationWindow {
     TabView {
         anchors.fill: parent
         Tab {
-            title: "Services"
+            title: qsTr("Services")
             TableView {
                 id: servicesList
                 anchors.fill: parent
