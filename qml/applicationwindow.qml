@@ -31,19 +31,16 @@ ApplicationWindow {
         }
     }
 
-    TabView {
+    StackView {
         anchors.fill: parent
-        Tab {
-            title: qsTr("Services")
-            TableView {
-                id: servicesList
-                anchors.fill: parent
-                headerVisible: false
-                model: selectedModel
-                onClicked: console.log(model, row)
-                TableViewColumn {
-                    role: "service"
-                }
+        TableView {
+            id: servicesList
+            anchors.fill: parent
+            headerVisible: false
+            model: selectedModel
+            onClicked: console.log(model, row)
+            TableViewColumn {
+                role: "service"
             }
         }
     }
