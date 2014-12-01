@@ -5,6 +5,8 @@ import QtQuick.Layouts 1.0
 ApplicationWindow {
     width: 800; height: 600
 
+    property var selectedModel: sessionBusModel
+
     toolBar: ToolBar {
         RowLayout {
             anchors.fill: parent
@@ -13,11 +15,13 @@ ApplicationWindow {
                 text: qsTr("Session Bus")
                 checkable: true
                 checked: true
+                onCheckedChanged: if (checked) selectedModel = sessionBusModel
                 exclusiveGroup: chosenBusGroup
             }
             ToolButton {
                 text: qsTr("System Bus")
                 checkable: true
+                onCheckedChanged: if (checked) selectedModel = systemBusModel
                 exclusiveGroup: chosenBusGroup
             }
             ToolButton {
@@ -35,7 +39,7 @@ ApplicationWindow {
                 id: servicesList
                 anchors.fill: parent
                 headerVisible: false
-                model: sessionBusModel
+                model: selectedModel
                 onClicked: console.log(model, row)
                 TableViewColumn {
                     role: "service"
