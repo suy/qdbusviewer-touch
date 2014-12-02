@@ -28,17 +28,34 @@ ApplicationWindow {
                 text: qsTr("Refresh")
                 onClicked: servicesList.model.refresh()
             }
+            ToolButton {
+                text: qsTr("Back")
+                enabled: stack.currentItem !== servicesList
+                onClicked: stack.pop();
+            }
         }
     }
 
     StackView {
+        id: stack
         anchors.fill: parent
-        TableView {
+        Component {
+            id: objectView
+            Rectangle {
+                property alias text: label.text
+                Text {
+                    id: label
+                    anchors.fill: parent
+                }
+            }
+        }
+        initialItem: TableView {
             id: servicesList
-            anchors.fill: parent
             headerVisible: false
             model: selectedModel
-            onClicked: console.log(model, row)
+            onClicked: {
+                stack.push({item: objectView, properties: {text: model.serviceAt(row)}})
+            }
             TableViewColumn {
                 role: "service"
             }

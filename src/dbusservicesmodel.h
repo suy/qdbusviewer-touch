@@ -15,6 +15,10 @@ public:
 	QHash<int, QByteArray> roleNames() const Q_DECL_FINAL;
     QVariant data(const QModelIndex& i, int role) const Q_DECL_FINAL;
 
+    Q_INVOKABLE QString serviceAt(int row) {
+        return data(index(row, 0, QModelIndex()), Qt::DisplayRole).toString();
+    }
+
 public slots:
     void refresh();
 
