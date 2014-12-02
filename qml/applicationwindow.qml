@@ -1,11 +1,12 @@
 import QtQuick 2.1
 import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
+import My.DBus 0.1
 
 ApplicationWindow {
     width: 800; height: 600
 
-    property var selectedModel: sessionBusModel
+    property int selectedModel: DBus.SessionBus
 
     toolBar: ToolBar {
         RowLayout {
@@ -15,13 +16,13 @@ ApplicationWindow {
                 text: qsTr("Session Bus")
                 checkable: true
                 checked: true
-                onCheckedChanged: if (checked) selectedModel = sessionBusModel
+                onCheckedChanged: if (checked) selectedModel = DBus.SessionBus
                 exclusiveGroup: chosenBusGroup
             }
             ToolButton {
                 text: qsTr("System Bus")
                 checkable: true
-                onCheckedChanged: if (checked) selectedModel = systemBusModel
+                onCheckedChanged: if (checked) selectedModel = DBus.SystemBus
                 exclusiveGroup: chosenBusGroup
             }
             ToolButton {
@@ -52,7 +53,7 @@ ApplicationWindow {
         initialItem: TableView {
             id: servicesList
             headerVisible: false
-            model: selectedModel
+            model: selectedModel === DBus.SessionBus? sessionBusModel : systemBusModel;
             onClicked: {
                 stack.push({item: objectView, properties: {text: model.serviceAt(row)}})
             }

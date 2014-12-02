@@ -21,6 +21,8 @@ int main(int argc, char* argv[])
         "] %{function}\n    %{message}"
     ));
     qmlRegisterType<DBusObjectModel>("My.DBusObjectModel", 0, 1, "DBusObjectModel");
+    qmlRegisterUncreatableType<QDBusConnection>("My.DBus", 0, 1, "DBus",
+            "DBus is an uncreatable type. Only its enums are useful in QML.");
     Helper helper;
 
 #ifdef OS_SAILFISH
