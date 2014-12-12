@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/applicationwindow.qml</file>
+        <file>qml/DBusObjectView.qml</file>
     </qresource>
 </RCC>

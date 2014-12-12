@@ -6,7 +6,7 @@ import My.DBus 0.1
 ApplicationWindow {
     width: 800; height: 600
 
-    property int selectedModel: DBus.SessionBus
+    property int selectedBus: DBus.SessionBus
 
     toolBar: ToolBar {
         RowLayout {
@@ -16,13 +16,13 @@ ApplicationWindow {
                 text: qsTr("Session Bus")
                 checkable: true
                 checked: true
-                onCheckedChanged: if (checked) selectedModel = DBus.SessionBus
+                onCheckedChanged: if (checked) selectedBus = DBus.SessionBus
                 exclusiveGroup: chosenBusGroup
             }
             ToolButton {
                 text: qsTr("System Bus")
                 checkable: true
-                onCheckedChanged: if (checked) selectedModel = DBus.SystemBus
+                onCheckedChanged: if (checked) selectedBus = DBus.SystemBus
                 exclusiveGroup: chosenBusGroup
             }
             ToolButton {
@@ -42,21 +42,19 @@ ApplicationWindow {
         anchors.fill: parent
         Component {
             id: objectView
-            Rectangle {
-                property alias text: label.text
-                Text {
-                    id: label
-                    anchors.fill: parent
-                }
-            }
+            DBusObjectView {}
         }
         initialItem: TableView {
             id: servicesList
             headerVisible: false
-            model: selectedModel === DBus.SessionBus? sessionBusModel : systemBusModel;
-            onClicked: {
-                stack.push({item: objectView, properties: {text: model.serviceAt(row)}})
-            }
+            model: selectedBus === DBus.SessionBus? sessionBusModel : systemBusModel;
+            onClicked: stack.push({
+                    item: objectView,
+                    properties: {
+                        serviceName: model.serviceAt(row),
+                        dbusType: selectedBus
+                    }
+                })
             TableViewColumn {
                 role: "service"
             }
