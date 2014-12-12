@@ -16,7 +16,7 @@ RESOURCES = dbusviewertouch.qrc
 #
 # Sailfish OS dependent.
 #
-packagesExist(sailfishapp) {
+contains(DEFINES, SAILFISH_BUILD) {
     message(Building for Sailfish OS)
     # From the template provided by the Sailfish SDK:
     # <blockquote>
