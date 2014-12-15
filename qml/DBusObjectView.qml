@@ -1,16 +1,17 @@
 import QtQuick 2.1
 import QtQml.Models 2.1
-import My.DBus 0.1
+import My.DBusObjectModel 0.1
 
 ListView {
     id: root
 
-    property string serviceName
-    property var dbusConnection
+    property alias service: dbusObjectModel.service
+    property alias busType: dbusObjectModel.busType
 
     model: DelegateModel {
-        id: delegateModel
-        model: 1
-        delegate: Text {text: serviceName}
+        model: DBusObjectModel {
+            id: dbusObjectModel
+        }
+        delegate: Text {text: name}
     }
 }

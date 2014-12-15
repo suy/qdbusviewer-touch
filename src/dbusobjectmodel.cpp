@@ -1,15 +1,32 @@
 #include "dbusobjectmodel.h"
-#include "qttools/src/qdbus/qdbusviewer/qdbusmodel.h"
 
-#include <QDebug>
 #include <QDBusObjectPath>
+#include <QDebug>
 
 DBusObjectModel::DBusObjectModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    m_model = static_cast<QDBusModel*>(parent);
-    Q_ASSERT_X(m_model, Q_FUNC_INFO, "The parent has to be a QDBusModel");
 }
+
+void DBusObjectModel::componentComplete()
+{
+    Q_ASSERT_X(!m_service.isEmpty(), Q_FUNC_INFO, "A service name has to be set");
+    Q_ASSERT_X(m_busType != QDBusConnection::SystemBus
+            || m_busType != QDBusConnection::SessionBus, Q_FUNC_INFO,
+            "Bus type has to be QDBusConnection::SessionBus or ::SystemBus");
+
+    if (m_busType == QDBusConnection::SystemBus) {
+        m_model = new QDBusModel(m_service, QDBusConnection::systemBus());
+    } else {
+        m_model = new QDBusModel(m_service, QDBusConnection::sessionBus());
+    }
+}
+
+DBusObjectModel::~DBusObjectModel()
+{
+    delete m_model;
+}
+
 
 void DBusObjectModel::setObjectPath(QString path)
 {

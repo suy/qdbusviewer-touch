@@ -51,8 +51,8 @@ ApplicationWindow {
             onClicked: stack.push({
                     item: objectView,
                     properties: {
-                        serviceName: model.serviceAt(row),
-                        dbusType: selectedBus
+                        service: model.serviceAt(row),
+                        busType: selectedBus
                     }
                 })
             TableViewColumn {
