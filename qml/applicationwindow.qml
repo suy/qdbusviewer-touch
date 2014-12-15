@@ -48,7 +48,7 @@ ApplicationWindow {
             id: servicesList
             headerVisible: false
             model: selectedBus === DBus.SessionBus? sessionBusModel : systemBusModel;
-            onClicked: stack.push({
+            onActivated: stack.push({
                     item: objectView,
                     properties: {
                         service: model.serviceAt(row),
