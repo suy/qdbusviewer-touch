@@ -13,18 +13,13 @@ DBusServicesModel::DBusServicesModel(const QDBusConnection& connection,
     : QStringListModel(parent)
     , m_connection(connection)
 {
-    if (m_connection.isConnected()) {
-        QDBusConnectionInterface *iface = m_connection.interface();
-        connect(iface, SIGNAL(serviceRegistered(QString)),
-                this, SLOT(serviceRegistered(QString)));
-        connect(iface, SIGNAL(serviceUnregistered(QString)),
-                this, SLOT(serviceUnregistered(QString)));
-        connect(iface, SIGNAL(serviceOwnerChanged(QString,QString,QString)),
-                this, SLOT(serviceOwnerChanged(QString,QString,QString)));
-    } else {
-        qCritical() << QStringLiteral("Can't connect to D-Bus!")
-                    << m_connection.lastError().message();
-    }
+    QDBusConnectionInterface *iface = m_connection.interface();
+    connect(iface, SIGNAL(serviceRegistered(QString)),
+            this, SLOT(serviceRegistered(QString)));
+    connect(iface, SIGNAL(serviceUnregistered(QString)),
+            this, SLOT(serviceUnregistered(QString)));
+    connect(iface, SIGNAL(serviceOwnerChanged(QString,QString,QString)),
+            this, SLOT(serviceOwnerChanged(QString,QString,QString)));
     refresh();
 }
 
