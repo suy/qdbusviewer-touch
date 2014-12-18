@@ -1,12 +1,11 @@
-#ifndef DEBUG_DBUSSERVICESMODEL
-#define QT_NO_DEBUG_OUTPUT
-#endif
-
 #include <QDBusConnectionInterface>
 #include <QDBusError>
-#include <QDebug>
+#include <QLoggingCategory>
 
 #include "dbusservicesmodel.h"
+
+Q_LOGGING_CATEGORY(LCM, "app.servicesmodel.innermodel")
+Q_LOGGING_CATEGORY(LCR, "app.servicesmodel.registration")
 
 DBusServicesModel::DBusServicesModel(const QDBusConnection& connection,
                                      QObject *parent)
@@ -37,7 +36,7 @@ QHash<int, QByteArray> DBusServicesModel::roleNames() const
 
 void DBusServicesModel::serviceRegistered(const QString& service)
 {
-    qDebug() << service;
+    qCDebug(LCR) << service;
 
     if (service == m_connection.baseService())
         return;
@@ -48,7 +47,7 @@ void DBusServicesModel::serviceRegistered(const QString& service)
 
 QModelIndex DBusServicesModel::findItem(const QString &name)
 {
-    qDebug() << name;
+    qCDebug(LCM) << name;
 
     QModelIndexList hits = this->match(this->index(0, 0), Qt::DisplayRole, name);
     if (hits.isEmpty())
@@ -59,7 +58,7 @@ QModelIndex DBusServicesModel::findItem(const QString &name)
 
 void DBusServicesModel::serviceUnregistered(const QString &name)
 {
-    qDebug() << name;
+    qCDebug(LCR) << name;
 
     QModelIndex hit = findItem(name);
     if (!hit.isValid())
@@ -71,7 +70,7 @@ void DBusServicesModel::serviceOwnerChanged(const QString &name,
                                             const QString &oldOwner,
                                             const QString &newOwner)
 {
-    qDebug() << name << oldOwner << newOwner;
+    qCDebug(LCR) << name << oldOwner << newOwner;
 
     QModelIndex hit = findItem(name);
 
@@ -107,7 +106,7 @@ QVariant DBusServicesModel::data(const QModelIndex& i, int role) const
     if (i.data(Qt::DisplayRole).toString() == m_connection.baseService()
         && role == Qt::UserRole)
     {
-        qDebug() << "Found myself" << m_connection.baseService();
+        qCDebug(LCM) << "Found myself" << m_connection.baseService();
         return QVariant(true);
     }
 

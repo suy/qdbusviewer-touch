@@ -15,10 +15,10 @@
 
 int main(int argc, char* argv[])
 {
-    qSetMessagePattern(QStringLiteral("["
+    qSetMessagePattern(QStringLiteral(
         "%{if-debug}D%{endif}%{if-warning}W%{endif}"
         "%{if-critical}C%{endif}%{if-fatal}F%{endif}"
-        "] %{function}\n    %{message}"
+        " %{category} -- %{function}\n  %{message}"
     ));
     qmlRegisterType<DBusObjectModel>("My.DBusObjectModel", 0, 1, "DBusObjectModel");
     qmlRegisterUncreatableType<QDBusConnection>("My.DBus", 0, 1, "DBus",
