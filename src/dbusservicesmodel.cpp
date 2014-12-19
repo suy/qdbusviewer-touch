@@ -37,10 +37,10 @@ QHash<int, QByteArray> DBusServicesModel::roleNames() const
 void DBusServicesModel::serviceRegistered(const QString& service)
 {
     qCDebug(LCR) << service;
-
-    if (service == m_connection.baseService())
+    if (service == m_connection.baseService()) {
+        Q_ASSERT_X(stringList().contains(service), Q_FUNC_INFO, "Should already be there");
         return;
-
+    }
     insertRows(0, 1);
     setData(this->index(0, 0), service, Qt::DisplayRole);
 }
@@ -106,7 +106,6 @@ QVariant DBusServicesModel::data(const QModelIndex& i, int role) const
     if (i.data(Qt::DisplayRole).toString() == m_connection.baseService()
         && role == Qt::UserRole)
     {
-        qCDebug(LCM) << "Found myself" << m_connection.baseService();
         return QVariant(true);
     }
 
