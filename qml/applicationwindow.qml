@@ -1,5 +1,6 @@
 import QtQuick 2.1
 import QtQuick.Controls 1.0
+import QtQuick.Controls.Styles 1.0
 import QtQuick.Layouts 1.0
 import My.DBus 0.1
 
@@ -46,7 +47,6 @@ ApplicationWindow {
         }
         initialItem: TableView {
             id: servicesList
-            headerVisible: false
             model: selectedBus === DBus.SessionBus? sessionBusModel : systemBusModel;
             onActivated: stack.push({
                     item: objectView,
@@ -55,8 +55,22 @@ ApplicationWindow {
                         busType: selectedBus
                     }
                 })
+            style: TableViewStyle {
+                activateItemOnSingleClick: true
+            }
+
+            TableViewColumn {
+                role: "myself"
+                title: qsTr("myself")
+                width: 15
+                delegate: Rectangle {
+                    color: styleData.value ? "gray" : "transparent"
+                }
+            }
+
             TableViewColumn {
                 role: "service"
+                title: qsTr("Service name")
             }
         }
     }
