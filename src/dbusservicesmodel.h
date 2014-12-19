@@ -19,6 +19,8 @@ public:
         return data(index(row, 0, QModelIndex()), Qt::DisplayRole).toString();
     }
 
+    Q_INVOKABLE QString baseService() { return m_connection.baseService(); }
+
 public slots:
     void refresh();
 

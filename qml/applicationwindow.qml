@@ -8,6 +8,9 @@ ApplicationWindow {
     width: 800; height: 600
 
     property int selectedBus: DBus.SessionBus
+    property string myName: selectedBus === DBus.SessionBus?
+                            sessionBusModel.baseService() :
+                            systemBusModel.baseService()
 
     toolBar: ToolBar {
         RowLayout {
@@ -34,6 +37,10 @@ ApplicationWindow {
                 text: qsTr("Back")
                 enabled: stack.currentItem !== servicesList
                 onClicked: stack.pop();
+            }
+            Label {
+                text: qsTr("Application name: <b><tt>%1</tt></b>").arg(myName)
+                Layout.alignment: Qt.AlignRight
             }
         }
     }
